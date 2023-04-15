@@ -17,7 +17,7 @@
     <PackageReference Include="AWSSDK.ApiGatewayManagementApi" Version="3.7.100.113" />
     <PackageReference Include="Flyingdarts.Lambdas.Shared" Version="1.0.3" />
     <PackageReference Include="Flyingdarts.Persistence" Version="1.0.1" />
-    <PackageReference Include="Flyingdarts.Shared" Version="1.0.0" />
+    <PackageReference Include="Flyingdarts.Shared" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0-preview.2.23128.3" />
   </ItemGroup>
   <ItemGroup>
