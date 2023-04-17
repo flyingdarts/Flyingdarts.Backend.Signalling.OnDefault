@@ -34,7 +34,7 @@ var handler = async (APIGatewayProxyRequest request, ILambdaContext context) =>
 
         // Grab the data from the JSON body which is the message to broadcasted.
         JsonElement dataProperty;
-        if (!message.RootElement.TryGetProperty("message", out dataProperty) || dataProperty.GetString() == null)
+        if (!message.RootElement.TryGetProperty("message", out dataProperty))
         {
             context.Logger.LogInformation("Failed to find data element in JSON document");
             return new APIGatewayProxyResponse
@@ -43,7 +43,7 @@ var handler = async (APIGatewayProxyRequest request, ILambdaContext context) =>
             };
         }
 
-        var data = dataProperty.GetString() ?? "";
+        var data = dataProperty.ToString();
         var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));
 
         // List all of the current connections. In a more advanced use case the table could be used to grab a group of connection ids for a chat group.
