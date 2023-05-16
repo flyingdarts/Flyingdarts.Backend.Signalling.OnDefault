@@ -31,11 +31,11 @@ var handler = async (APIGatewayProxyRequest request, ILambdaContext context) =>
     try
     {
         // The body will look something like this: {"message":"sendmessage", "data":"What are you doing?"}
-        var message = JsonDocument.Parse(request.Body);
+        var body = JsonDocument.Parse(request.Body);
 
-        // Grab the data from the JSON body which is the message to broadcasted.
-        JsonElement dataProperty;
-        if (!message.RootElement.TryGetProperty("message", out dataProperty))
+        // Grab the message from the JSON body which is the message to broadcasted.
+        JsonElement messageProperty;
+        if (!body.RootElement.TryGetProperty("message", out messageProperty))
         {
             context.Logger.LogInformation("Failed to find data element in JSON document");
             return new APIGatewayProxyResponse
@@ -44,8 +44,30 @@ var handler = async (APIGatewayProxyRequest request, ILambdaContext context) =>
             };
         }
 
-        var data = dataProperty.ToString();
-        var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));
+        // Grab the owner from the JSON body which is the message to broadcasted.
+        JsonElement ownerProperty;
+        if (!body.RootElement.TryGetProperty("owner", out ownerProperty))
+        {
+            context.Logger.LogInformation("Failed to find data element in JSON document");
+            return new APIGatewayProxyResponse
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest
+            };
+        }
+
+        // Grab the date from the JSON body which is the message to broadcasted.
+        JsonElement dateProperty;
+        if (!body.RootElement.TryGetProperty("owner", out dateProperty))
+        {
+            context.Logger.LogInformation("Failed to find data element in JSON document");
+            return new APIGatewayProxyResponse
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest
+            };
+        }
+
+        var data = new { message = messageProperty.ToString(), owner = ownerProperty.ToString(), date = dateProperty.ToString() };
+        var stream = new MemoryStream(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)));
 
         // List all of the current connections. In a more advanced use case the table could be used to grab a group of connection ids for a chat group.
         var scanRequest = new ScanRequest
