@@ -1,6 +1,7 @@
 using Amazon.DynamoDBv2;
 using Microsoft.Extensions.DependencyInjection;
 using FluentValidation;
+using Flyingdarts.Backend.Signalling.OnDefault.CQRS;
 
 public static class ServiceFactory
 {
@@ -8,8 +9,8 @@ public static class ServiceFactory
     {
         var services = new ServiceCollection();
         services.AddSingleton<AmazonDynamoDBClient>();
-        services.AddValidatorsFromAssemblyContaining<OnDisconnectCommandValidator>();
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(OnDisconnectCommand).Assembly));
+        services.AddValidatorsFromAssemblyContaining<OnDefaultCommandValidator>();
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(OnDefaultCommand).Assembly));
         return services.BuildServiceProvider();
     }
 }
