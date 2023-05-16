@@ -67,7 +67,8 @@ var handler = async (APIGatewayProxyRequest request, ILambdaContext context) =>
         }
 
         var data = new { message = messageProperty.ToString(), owner = ownerProperty.ToString(), date = dateProperty.ToString() };
-        var stream = new MemoryStream(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data)));
+        var returnValue = new { action = "connect$", body = data};
+        var stream = new MemoryStream(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(returnValue)));
 
         // List all of the current connections. In a more advanced use case the table could be used to grab a group of connection ids for a chat group.
         var scanRequest = new ScanRequest
