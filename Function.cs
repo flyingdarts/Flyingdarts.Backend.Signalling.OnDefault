@@ -24,6 +24,7 @@ var apiGatewayManagementApiClientFactory = (Func<string, AmazonApiGatewayManagem
         ServiceURL = endpoint
     });
 });
+
 // The function handler that will be called for each Lambda event
 var handler = async (APIGatewayProxyRequest request, ILambdaContext context) =>
 {
@@ -43,6 +44,7 @@ var handler = async (APIGatewayProxyRequest request, ILambdaContext context) =>
             };
         }
 
+        dataProperty.GetBoolean();
         var data = dataProperty.ToString();
         var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));
 
@@ -124,3 +126,12 @@ var handler = async (APIGatewayProxyRequest request, ILambdaContext context) =>
 await LambdaBootstrapBuilder.Create(handler, new DefaultLambdaJsonSerializer())
     .Build()
     .RunAsync();
+
+
+public class WebSocketMessage
+{
+    public string Date { get; set; }
+    public string Message { get; set; }
+    public string Owner { get; set; }
+    public bool Received { get; set; }
+}
