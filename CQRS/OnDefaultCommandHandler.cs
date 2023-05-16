@@ -1,20 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using Amazon.ApiGatewayManagementApi;
-using Amazon.ApiGatewayManagementApi.Model;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
-using Amazon.Lambda.APIGatewayEvents;
-using Flyingdarts.Lambdas.Shared;
-using MediatR;
-
-namespace Flyingdarts.Backend.Signalling.OnDefault.CQRS;
-
-public class OnDefaultCommandHandler : IRequestHandler<OnDefaultCommand, APIGatewayProxyResponse>
+﻿public class OnDefaultCommandHandler : IRequestHandler<OnDefaultCommand, APIGatewayProxyResponse>
 {
     private readonly IAmazonDynamoDB _dynamoDb;
     private readonly string _tableName;

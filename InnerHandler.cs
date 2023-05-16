@@ -1,10 +1,3 @@
-using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
-using Flyingdarts.Backend.Signalling.OnDefault.CQRS;
-using Flyingdarts.Lambdas.Shared;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-
 public class InnerHandler
 {
     private readonly IMediator _mediator;
