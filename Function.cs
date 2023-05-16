@@ -44,7 +44,6 @@ var handler = async (APIGatewayProxyRequest request, ILambdaContext context) =>
             };
         }
 
-        dataProperty.GetBoolean();
         var data = dataProperty.ToString();
         var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));
 
