@@ -9,13 +9,6 @@
     }
     public async Task<APIGatewayProxyResponse> Handle(OnDefaultCommand request, CancellationToken cancellationToken)
     {
-        var apiGatewayManagementApiClientFactory = (Func<string, AmazonApiGatewayManagementApiClient>)((endpoint) =>
-        {
-            return new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig
-            {
-                ServiceURL = endpoint
-            });
-        });
         // List all of the current connections. In a more advanced use case the table could be used to grab a group of connection ids for a chat group.
         var scanRequest = new ScanRequest
         {
@@ -23,11 +16,9 @@
             ProjectionExpression = "ConnectionId"
         };
 
-        var scanResponse = await _dynamoDb.ScanAsync(scanRequest);
+        var scanResponse = await _dynamoDb.ScanAsync(scanRequest, cancellationToken);
 
         // Construct the IAmazonApiGatewayManagementApi which will be used to send the message to.
-        var apiClient = apiGatewayManagementApiClientFactory(System.Environment.GetEnvironmentVariable("WebSocketApiUrl"));
-
         var socketMessage = new SocketMessage<OnDefaultCommand>
         {
             Message = request,
@@ -48,7 +39,7 @@
                 
             //context.Logger.LogInformation($"Post to connection {count}: {postConnectionRequest.ConnectionId}");
             stream.Position = 0;
-            await apiClient.PostToConnectionAsync(postConnectionRequest);
+            await request.ApiGatewayManagementApiClient.PostToConnectionAsync(postConnectionRequest, cancellationToken);
             count++;
         }
 
