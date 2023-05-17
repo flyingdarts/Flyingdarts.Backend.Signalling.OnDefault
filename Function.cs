@@ -1,7 +1,7 @@
 var services = ServiceFactory.GetServiceProvider();
 var innerHandler = new InnerHandler(services);
 var serializer = new DefaultLambdaJsonSerializer(x => x.PropertyNameCaseInsensitive = true);
-var apiGatewayClient = new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig { ServiceURL = webSocketUrl });
+var apiGatewayClient = new AmazonApiGatewayManagementApiClient(new AmazonApiGatewayManagementApiConfig { ServiceURL = Environment.GetEnvironmentVariable("WebSocketApiUrl")! });
 
 // The function handler that will be called for each Lambda event
 var handler = async (APIGatewayProxyRequest request) =>
